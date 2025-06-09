@@ -16,7 +16,7 @@ async function startServer() {
 
     // app.use(errorHandler);
     app.use(cookieParser());
-    app.use(cors({ origin: "*", credentials: true }));
+    app.use(cors({ origin: ["*", "https://exploredz-ui.vercel.app"] }));
     app.use(helmet());
     app.use(morgan('dev'));
     app.use(Express.json({ limit: '10mb' }));
