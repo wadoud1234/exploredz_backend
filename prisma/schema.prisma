@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // or "mysql" or "sqlite" for MVP
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  password  String
+  role      Role       @default(USER)
+  favorites Favorite[]
+  ratings   Rating[]
+  places    Place[]    @relation("UserCreatedPlaces")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Place     Place[]
+}
+
+// model Place {
+//   id          String     @id @default(cuid())
+//   name        String
+//   description String
+//   images      String[]
+//   tags        String[]
+//   wilayaId    String
+//   wilaya      Wilaya     @relation(fields: [wilayaId], references: [id])
+//   createdById String
+//   createdBy   User       @relation("UserCreatedPlaces", fields: [createdById], references: [id]) // 👈 added relation name
+//   favorites   Favorite[]
+//   ratings     Rating[]
+//   createdAt   DateTime   @default(now())
+//   updatedAt   DateTime   @updatedAt
+// }
+
+model Place {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  wilayaCode  Int // e.g. 16 for Algiers, 31 for Oran
+  images      String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   User     @relation("UserCreatedPlaces", fields: [createdById], references: [id]) // 👈 added relation name
+  createdById String
+
+  favorites Favorite[]
+  ratings   Rating[]
+  User      User?      @relation(fields: [userId], references: [id])
+  userId    String?
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  place     Place    @relation(fields: [placeId], references: [id])
+  placeId   String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, placeId]) // Prevent duplicate favorites
+}
+
+model Rating {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  place     Place    @relation(fields: [placeId], references: [id])
+  placeId   String
+  rating    Int // 1 to 5
+  comment   String? // Optional
+  createdAt DateTime @default(now())
+
+  @@unique([userId, placeId]) // One rating per user per place
+}
+
+enum Role {
+  USER
+  ADMIN
+}
