@@ -1,5 +1,5 @@
 import { prisma } from "../../config/db.config";
-const t = prisma.place.findMany({})
+
 export class PlacesService {
     static async createPlace({ name, description, wilayaCode, images, createdById }: {
         name: string;
@@ -29,8 +29,8 @@ export class PlacesService {
         return prisma.place.findUnique({
             where: { id: placeId },
             include: {
-                ratings: true,
-                favorites: true,
+                // ratings: true,
+                // favorites: true,
                 createdBy: true,
             },
         });

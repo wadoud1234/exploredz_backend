@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlacesService = void 0;
 const db_config_1 = require("../../config/db.config");
-const t = db_config_1.prisma.place.findMany({});
 class PlacesService {
     static async createPlace({ name, description, wilayaCode, images, createdById }) {
         console.log({ createdById });
@@ -24,8 +23,8 @@ class PlacesService {
         return db_config_1.prisma.place.findUnique({
             where: { id: placeId },
             include: {
-                ratings: true,
-                favorites: true,
+                // ratings: true,
+                // favorites: true,
                 createdBy: true,
             },
         });
