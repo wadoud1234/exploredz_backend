@@ -17,7 +17,8 @@ placesRouter.get("/", async (req, res, next) => {
     const { data: places, error } = await (0, try_catch_helper_1.TryCatch)(() => places_service_1.PlacesService.getAllPlaces());
     console.log({ places, error });
     if (error) {
-        return next(error);
+        res.status(500).json({ success: false, error });
+        return;
     }
     res.status(200).json({ success: true, data: places });
 });
