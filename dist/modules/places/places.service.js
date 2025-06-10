@@ -18,13 +18,7 @@ class PlacesService {
         });
     }
     static async getAllPlaces() {
-        return db_config_1.prisma.place.findMany({
-            include: {
-                ratings: true,
-                favorites: true,
-                createdBy: { select: { id: true, email: true } },
-            },
-        });
+        return db_config_1.prisma.place.findMany();
     }
     static async getPlaceById(placeId) {
         return db_config_1.prisma.place.findUnique({

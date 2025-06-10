@@ -22,13 +22,7 @@ export class PlacesService {
     }
 
     static async getAllPlaces() {
-        return prisma.place.findMany({
-            include: {
-                ratings: true,
-                favorites: true,
-                createdBy: { select: { id: true, email: true } },
-            },
-        });
+        return prisma.place.findMany();
     }
 
     static async getPlaceById(placeId: string) {
