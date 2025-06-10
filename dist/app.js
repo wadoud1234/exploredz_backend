@@ -23,7 +23,7 @@ async function startServer() {
     app.use(express_1.default.json({ limit: '10mb' }));
     app.use(express_1.default.urlencoded({ extended: true }));
     app.use((0, cors_1.default)({
-        origin: ["*", "https://exploredz-ui.vercel.app"],
+        origin: ["*", "http://localhost:3000", "https://exploredz-ui.vercel.app"],
         credentials: true
     }));
     app.use('/api', routers_1.default);

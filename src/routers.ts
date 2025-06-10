@@ -5,6 +5,8 @@ import favoritesRouter from "./modules/favorites/favorites.router";
 import ratingsRouter from "./modules/ratings/ratings.router";
 import authRouter from "./modules/auth/auth.router";
 import { prisma } from "./config/db.config";
+import statsRouter from "./modules/stats/stats.router";
+import imagesRouter from "./modules/images/images.router";
 
 const indexRouter = Router()
 
@@ -14,6 +16,8 @@ indexRouter.get("/", async (req, res) => {
 });
 
 indexRouter
+    .use("/images", imagesRouter)
+    .use("/stats", statsRouter)
     .use("/auth", authRouter)
     .use('/users', usersRouter)
     .use('/places', placesRouter)

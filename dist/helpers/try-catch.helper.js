@@ -8,7 +8,7 @@ async function TryCatch(fn) {
     }
     catch (error) {
         if (error instanceof Error)
-            return { data: null, error };
-        return { data: null, error: new Error('Something went wrong') };
+            return { data: null, error: error.message };
+        return { data: null, error: 'Something went wrong' };
     }
 }

@@ -8,7 +8,7 @@ authRouter.post('/register', async (req, res, next) => {
     const { name, email, password } = req.body
     const { data: user, error } = await TryCatch(() => AuthService.register(name, email, password));
     if (error) {
-        res.status(400).json({ success: false, error: error.message });
+        res.status(400).json({ success: false, error });
         return
     }
     res.status(201).json({ success: true, message: 'User created', data: user });
@@ -18,7 +18,7 @@ authRouter.post('/login', async (req, res, next) => {
     const { email, password } = req.body;
     const { data: result, error } = await TryCatch(() => AuthService.login(email, password));
     if (error) {
-        res.status(500).json({ success: false, error: error.message });
+        res.status(500).json({ success: false, error });
         return
     }
 
@@ -30,7 +30,7 @@ authRouter.post('/admin/login', async (req, res, next) => {
     const { email, password } = req.body;
     const { data: result, error } = await TryCatch(() => AuthService.adminLogin(email, password));
     if (error) {
-        res.status(500).json({ success: false, error: error.message });
+        res.status(500).json({ success: false, error });
         return
     }
 
@@ -48,7 +48,7 @@ authRouter.get("/me", async (req, res, next) => {
     const { data, error } = await TryCatch(() => AuthService.getCurrentUser(token));
     console.log({ data })
     if (error) {
-        res.status(500).json({ success: false, error: error.message });
+        res.status(500).json({ success: false, error });
         return
     }
     res.status(200).json({ success: true, data });
